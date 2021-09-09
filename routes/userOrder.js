@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import { userOrders } from "../dbModel.js";
 import nodemailer from "nodemailer";

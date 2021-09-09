@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import jwt from "jsonwebtoken";
 import ErrorResponse from "../utils/errorResponse.js";
 import { UserMod } from "../dbModel.js";
