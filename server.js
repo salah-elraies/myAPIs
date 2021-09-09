@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
 // import Products, { userSchema } from "./dbModel.js";
@@ -9,7 +10,6 @@ import authRouter from "./routes/auth.js";
 import userOrderRouter from "./routes/userOrder.js";
 // app config
 const app = express();
-dotenv.config();
 const port = process.env.PORT || 8001;
 
 // middlwares
