@@ -36,18 +36,19 @@ userOrderRouter.post("/", async (req, res) => {
     }
     // end sorting
     // start mail
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "salah.elraies@gmail.com",
-        pass: process.env.ORDER_MAIL_PASS,
-      },
-    });
-    // const missing = Object.entries(ordersObj).join(" || ");
-    const missing = Object.entries(ordersObj).map((prod) => {
-      return `<h3>${prod[1]} of ${prod[0]}</h3>`;
-    });
-    const orderMessage = `
+    try {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "salah.elraies@gmail.com",
+          pass: process.env.ORDER_MAIL_PASS,
+        },
+      });
+      // const missing = Object.entries(ordersObj).join(" || ");
+      const missing = Object.entries(ordersObj).map((prod) => {
+        return `<h3>${prod[1]} of ${prod[0]}</h3>`;
+      });
+      const orderMessage = `
     <p>You have received a new order from:</p>
     <h3>${user.userName}</h3>
     <span>phone number: </span>
@@ -58,20 +59,27 @@ userOrderRouter.post("/", async (req, res) => {
     <p>if he sent an address for the delivery it will be shown below</p>
     <h4>${address}</h4>
   `;
-    const mailOptions = {
-      from: "salah.elraies@gmail.com",
-      to: "s4l47.elraies@gmail.com",
-      subject: "New Order from website",
-      html: orderMessage,
-    };
+      const mailOptions = {
+        from: "salah.elraies@gmail.com",
+        to: "s4l47.elraies@gmail.com",
+        subject: "New Order from website",
+        html: orderMessage,
+      };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
+    } catch (err) {
+      res.json({
+        failed: true,
+        msg: "fuck you you can't login...",
+        error: err,
+      });
+    }
     // end mail
     // db creation
     await userOrders.create({
