@@ -14,6 +14,17 @@ const port = process.env.PORT || 8001;
 
 // middlwares
 app.use(Cors());
+app.use((req, res, next) => {
+  res.set({
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "*",
+    "Access-Control-Allow-Headers":
+      "'Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token'",
+  });
+
+  next();
+});
+
 app.use(express.json());
 app.use("/products", productsRouter);
 
@@ -41,12 +52,3 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log("I'm on port", port);
 });
-// app.use((req, res, next) => {
-//   res.set({
-//     "Access-Control-Allow-Origin": "*",
-//     "Access-Control-Allow-Methods": "*",
-//     "Access-Control-Allow-Headers": "'Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token'",
-// });
-
-// next();
-// });
