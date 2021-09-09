@@ -13,8 +13,8 @@ const app = express();
 const port = process.env.PORT || 8001;
 
 // middlwares
-app.use(express.json());
 app.use(Cors());
+app.use(express.json());
 app.use("/products", productsRouter);
 
 app.use("/api/auth", authRouter);
