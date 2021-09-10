@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
-// import Cors from "cors";
+import Cors from "cors";
 import mongoose from "mongoose";
 // import Products, { userSchema } from "./dbModel.js";
 
@@ -13,7 +13,6 @@ const app = express();
 const port = process.env.PORT || 8001;
 
 // middlwares
-
 app.use(Cors());
 app.use(express.json());
 app.use("/products", productsRouter);

@@ -9,7 +9,7 @@ userOrderRouter.post("/", async (req, res) => {
   const { user, order, total, phone, address } = req.body;
   res.header(
     "Access-Control-Allow-Origin",
-    "https://al7deedy-pipes-and-fittings.web.app/send-order",
+    "https://al7deedy-pipes-and-fittings.web.app",
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
