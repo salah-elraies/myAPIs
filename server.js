@@ -13,16 +13,8 @@ const app = express();
 const port = process.env.PORT || 8001;
 
 // middlwares
-// app.use(Cors());
-app.use(function (req, res, next) {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://al7deedy-pipes-and-fittings.web.app",
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  ); // update to match the domain you will make the request from
-  next();
-});
+
+app.use(Cors());
 app.use(express.json());
 app.use("/products", productsRouter);
 

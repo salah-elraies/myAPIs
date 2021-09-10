@@ -7,6 +7,12 @@ const userOrderRouter = express.Router();
 
 userOrderRouter.post("/", async (req, res) => {
   const { user, order, total, phone, address } = req.body;
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://al7deedy-pipes-and-fittings.web.app/send-order",
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   try {
     // sort order
     const sortedBasket = [...order].sort((a, b) => {
