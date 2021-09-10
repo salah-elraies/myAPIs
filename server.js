@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
-import Cors from "cors";
 import express from "express";
+// import Cors from "cors";
 import mongoose from "mongoose";
 // import Products, { userSchema } from "./dbModel.js";
 
@@ -13,18 +13,18 @@ const app = express();
 const port = process.env.PORT || 8001;
 
 // middlwares
-app.use(Cors());
-app.use((req, res, next) => {
-  res.set({
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "*",
-    "Access-Control-Allow-Headers":
-      "'Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token'",
-  });
-
+// app.use(Cors());
+app.use(function (req, res, next) {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://al7deedy-pipes-and-fittings.web.app"
+  ); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   next();
 });
-
 app.use(express.json());
 app.use("/products", productsRouter);
 
