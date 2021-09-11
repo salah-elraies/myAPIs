@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 import productsRouter from "./routes/products.js";
 import authRouter from "./routes/auth.js";
 import userOrderRouter from "./routes/userOrder.js";
+import userEmailOrder from "./routes/userEmailOrder.js";
 // app config
 const app = express();
 const port = process.env.PORT || 8001;
@@ -35,6 +36,7 @@ app.use(express.json());
 app.use("/products", productsRouter);
 
 app.use("/userorder", userOrderRouter);
+app.use("/orderemail", userEmailOrder);
 
 app.use("/api/auth", authRouter);
 
