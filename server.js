@@ -24,9 +24,9 @@ const port = process.env.PORT || 8001;
 app.use(express.json());
 app.use(Cors());
 app.use("/products", productsRouter);
-
+app.use(Cors());
 app.use("/userorder", userOrderRouter);
-
+app.use(Cors());
 app.use("/api/auth", authRouter);
 
 // DB config
