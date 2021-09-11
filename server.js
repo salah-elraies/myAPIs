@@ -17,6 +17,7 @@ app.use(
   Cors({
     origin: [
       "https://al7deedy-pipes-and-fittings.web.app",
+      "https://al7deedy-pipes-and-fittings.web.app/send-order",
       "https://al7deedy-pipes-and-fittings.firebaseapp.com",
     ],
     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
