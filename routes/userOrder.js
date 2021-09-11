@@ -41,7 +41,7 @@ userOrderRouter.post("/", async (req, res) => {
     }
     // end sorting
     // start mail
-    const transporter = nodemailer.createTransport({
+    const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: "salah.elraies@gmail.com",
@@ -70,7 +70,7 @@ userOrderRouter.post("/", async (req, res) => {
       html: orderMessage,
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    await transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
