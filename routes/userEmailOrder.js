@@ -4,15 +4,20 @@ import express from "express";
 // import { userOrders } from "../dbModel.js";
 import nodemailer from "nodemailer";
 // import cors from "cors";
-const userEmailOrder = express.Router();
-// userEmailOrder.use(cors());
-userEmailOrder.use((req, res, next) => {
+const userOrderRouter = express.Router();
+// userOrderRouter.use(cors());
+userOrderRouter.post("/", async (req, res) => {
+  // res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  // res.header(
+  //   "Access-Control-Allow-Headers",
+  //   "Origin, X-Requested-With, Content-Type, Accept"
+  // );
   const { user, order, total, phone, address } = req.body;
-  const sortedBasket = [...order].sort((a, b) => {
-    return a.title.localeCompare(b.title);
-  });
   try {
     // sort order
+    const sortedBasket = [...order].sort((a, b) => {
+      return a.title.localeCompare(b.title);
+    });
     let newArr = [];
     let objArr = [];
     let ordersObj = {};
@@ -35,12 +40,9 @@ userEmailOrder.use((req, res, next) => {
       });
       ordersObj[newArr[j]?.title] = objArr.length;
     }
-    const missing = Object.entries(ordersObj).map((prod) => {
-      return `<h3>${prod[1]} of ${prod[0]}</h3>`;
-    });
     // end sorting
     // start mail
-    const transporter = nodemailer.createTransport({
+    const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: "salah.elraies@gmail.com",
@@ -48,6 +50,9 @@ userEmailOrder.use((req, res, next) => {
       },
     });
     // const missing = Object.entries(ordersObj).join(" || ");
+    const missing = Object.entries(ordersObj).map((prod) => {
+      return `<h3>${prod[1]} of ${prod[0]}</h3>`;
+    });
     const orderMessage = `
     <p>You have received a new order from:</p>
     <h3>${user.userName}</h3>
@@ -77,15 +82,6 @@ userEmailOrder.use((req, res, next) => {
   } catch (err) {
     res.json({ failed: true, error: err });
   }
-  next();
-});
-userEmailOrder.post("/", async (req, res) => {
-  // res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-  // res.header(
-  //   "Access-Control-Allow-Headers",
-  //   "Origin, X-Requested-With, Content-Type, Accept"
-  // );
-  res.json({ success: "maybe" });
 });
 
 export default userEmailOrder;
