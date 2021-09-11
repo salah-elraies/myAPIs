@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
-import express from "express";
 import Cors from "cors";
+app.use(Cors());
+import express from "express";
 import mongoose from "mongoose";
 // import Products, { userSchema } from "./dbModel.js";
 
@@ -13,7 +14,6 @@ const app = express();
 const port = process.env.PORT || 8001;
 
 // middlwares
-app.use(Cors());
 // app.use(function (req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
 //   res.header(
