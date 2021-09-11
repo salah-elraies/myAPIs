@@ -3,15 +3,14 @@ dotenv.config();
 import express from "express";
 import { userOrders } from "../dbModel.js";
 import nodemailer from "nodemailer";
-import cors from "cors";
 const userOrderRouter = express.Router();
-// userOrderRouter.use(cors());
+
 userOrderRouter.post("/", async (req, res) => {
-  // res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-  // res.header(
-  //   "Access-Control-Allow-Headers",
-  //   "Origin, X-Requested-With, Content-Type, Accept"
-  // );
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   const { user, order, total, phone, address } = req.body;
   try {
     // sort order
@@ -42,7 +41,7 @@ userOrderRouter.post("/", async (req, res) => {
     }
     // end sorting
     // start mail
-    const transporter = await nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: "salah.elraies@gmail.com",
@@ -71,7 +70,7 @@ userOrderRouter.post("/", async (req, res) => {
       html: orderMessage,
     };
 
-    await transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
