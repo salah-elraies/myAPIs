@@ -13,7 +13,15 @@ const app = express();
 const port = process.env.PORT || 8001;
 
 // middlwares
-app.use(Cors());
+app.use(
+  Cors({
+    origin: [
+      "https://al7deedy-pipes-and-fittings.web.app",
+      "https://al7deedy-pipes-and-fittings.firebaseapp.com",
+    ],
+    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+  })
+);
 // app.use(function (req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
 //   res.header(
@@ -25,7 +33,7 @@ app.use(Cors());
 app.use(express.json());
 app.use("/products", productsRouter);
 
-app.use("/userorder", userOrderRouter);
+app.use("/userorder", Cors(), userOrderRouter);
 
 app.use("/api/auth", authRouter);
 
