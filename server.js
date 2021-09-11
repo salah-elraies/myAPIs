@@ -6,13 +6,14 @@ import mongoose from "mongoose";
 // import Products, { userSchema } from "./dbModel.js";
 
 import productsRouter from "./routes/products.js";
-import userOrderRouter from "./routes/userOrder.js";
 import authRouter from "./routes/auth.js";
+import userOrderRouter from "./routes/userOrder.js";
 // app config
 const app = express();
 const port = process.env.PORT || 8001;
 
 // middlwares
+app.use(Cors());
 // app.use(function (req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
 //   res.header(
@@ -22,11 +23,10 @@ const port = process.env.PORT || 8001;
 //   next();
 // });
 app.use(express.json());
-app.use(Cors());
 app.use("/products", productsRouter);
-app.use(Cors());
+
 app.use("/userorder", userOrderRouter);
-app.use(Cors());
+
 app.use("/api/auth", authRouter);
 
 // DB config

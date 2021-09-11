@@ -5,7 +5,7 @@ import { userOrders } from "../dbModel.js";
 import nodemailer from "nodemailer";
 import cors from "cors";
 const userOrderRouter = express.Router();
-userOrderRouter.use(cors);
+userOrderRouter.use(cors());
 userOrderRouter.post("/", async (req, res) => {
   // res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
   // res.header(
