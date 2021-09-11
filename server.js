@@ -22,13 +22,13 @@ const port = process.env.PORT || 8001;
 //   next();
 // });
 app.use(express.json());
+app.use(Cors());
 app.use("/products", productsRouter);
 
 app.use("/userorder", userOrderRouter);
 
 app.use("/api/auth", authRouter);
 
-app.use(Cors());
 // DB config
 const dbUrlConnection = process.env.DATABASE_URL;
 mongoose.connect(dbUrlConnection, {
