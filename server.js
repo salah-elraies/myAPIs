@@ -6,8 +6,8 @@ import mongoose from "mongoose";
 // import Products, { userSchema } from "./dbModel.js";
 
 import productsRouter from "./routes/products.js";
-import authRouter from "./routes/auth.js";
 import userOrderRouter from "./routes/userOrder.js";
+import authRouter from "./routes/auth.js";
 // app config
 const app = express();
 const port = process.env.PORT || 8001;

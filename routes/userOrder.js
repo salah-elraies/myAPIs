@@ -6,13 +6,12 @@ import nodemailer from "nodemailer";
 const userOrderRouter = express.Router();
 
 userOrderRouter.post("/", async (req, res) => {
-  const { user, order, total, phone, address } = req.body;
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
   res.header(
-    "Access-Control-Allow-Origin",
-    "https://al7deedy-pipes-and-fittings.web.app",
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
+    "*, XMLHttpRequest, application/json, *"
   );
+  const { user, order, total, phone, address } = req.body;
   try {
     // sort order
     const sortedBasket = [...order].sort((a, b) => {
@@ -42,19 +41,18 @@ userOrderRouter.post("/", async (req, res) => {
     }
     // end sorting
     // start mail
-    try {
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: "salah.elraies@gmail.com",
-          pass: process.env.ORDER_MAIL_PASS,
-        },
-      });
-      // const missing = Object.entries(ordersObj).join(" || ");
-      const missing = Object.entries(ordersObj).map((prod) => {
-        return `<h3>${prod[1]} of ${prod[0]}</h3>`;
-      });
-      const orderMessage = `
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "salah.elraies@gmail.com",
+        pass: process.env.ORDER_MAIL_PASS,
+      },
+    });
+    // const missing = Object.entries(ordersObj).join(" || ");
+    const missing = Object.entries(ordersObj).map((prod) => {
+      return `<h3>${prod[1]} of ${prod[0]}</h3>`;
+    });
+    const orderMessage = `
     <p>You have received a new order from:</p>
     <h3>${user.userName}</h3>
     <span>phone number: </span>
@@ -65,27 +63,20 @@ userOrderRouter.post("/", async (req, res) => {
     <p>if he sent an address for the delivery it will be shown below</p>
     <h4>${address}</h4>
   `;
-      const mailOptions = {
-        from: "salah.elraies@gmail.com",
-        to: "s4l47.elraies@gmail.com",
-        subject: "New Order from website",
-        html: orderMessage,
-      };
+    const mailOptions = {
+      from: "salah.elraies@gmail.com",
+      to: "s4l47.elraies@gmail.com",
+      subject: "New Order from website",
+      html: orderMessage,
+    };
 
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log("Email sent: " + info.response);
-        }
-      });
-    } catch (err) {
-      res.json({
-        failed: true,
-        msg: "fuck you you can't login...",
-        error: err,
-      });
-    }
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
     // end mail
     // db creation
     await userOrders.create({
