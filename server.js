@@ -33,7 +33,7 @@ app.use(
 app.use(express.json());
 app.use("/products", productsRouter);
 
-app.use("/userorder", Cors(), userOrderRouter);
+app.use("/userorder", userOrderRouter);
 
 app.use("/api/auth", authRouter);
 
