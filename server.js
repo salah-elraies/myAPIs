@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
-import Cors from "cors";
-app.use(Cors());
 import express from "express";
+import Cors from "cors";
 import mongoose from "mongoose";
 // import Products, { userSchema } from "./dbModel.js";
 
@@ -29,6 +28,7 @@ app.use("/userorder", userOrderRouter);
 
 app.use("/api/auth", authRouter);
 
+app.use(Cors());
 // DB config
 const dbUrlConnection = process.env.DATABASE_URL;
 mongoose.connect(dbUrlConnection, {
