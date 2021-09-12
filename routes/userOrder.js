@@ -73,7 +73,7 @@ userOrderRouter.post("/", async (req, res) => {
     try {
       await sendOrder({
         to: "s4l47.elraies@gmail.com",
-        subject: "Password Reset Request",
+        subject: "New Order From Site",
         text: orderMessage,
       });
 
