@@ -25,7 +25,7 @@ const sendEmail = (options) => {
 };
 const sendOrder = (options) => {
   const transporter = nodemailer.createTransport({
-    host: "gmail",
+    host: "salah.elraies@gmail.com",
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
