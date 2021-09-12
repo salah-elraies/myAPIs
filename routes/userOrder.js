@@ -6,40 +6,40 @@ import nodemailer from "nodemailer";
 const userOrderRouter = express.Router();
 
 userOrderRouter.post("/", async (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  const { user, order, total, phone, address } = req.body;
+  // res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  // res.header(
+  //   "Access-Control-Allow-Headers",
+  //   "Origin, X-Requested-With, Content-Type, Accept"
+  // );
+  const { user, order, total, phone, address, ordersObj } = req.body;
   try {
-    // sort order
-    const sortedBasket = [...order].sort((a, b) => {
-      return a.title.localeCompare(b.title);
-    });
-    let newArr = [];
-    let objArr = [];
-    let ordersObj = {};
-    newArr.push(sortedBasket[0]);
-    for (let i = 0; i < sortedBasket.length; i++) {
-      if (
-        sortedBasket[i - 1] &&
-        sortedBasket[i].title !== sortedBasket[i - 1].title
-      ) {
-        newArr.push(sortedBasket[i]);
-      }
-    }
-    for (let j = 0; j < newArr.length; j++) {
-      objArr = sortedBasket.filter((v) => {
-        if (newArr[j].title) {
-          if (v.title === newArr[j].title) {
-            return v;
-          }
-        }
-      });
-      ordersObj[newArr[j]?.title] = objArr.length;
-    }
-    // end sorting
+    // // sort order
+    // const sortedBasket = [...order].sort((a, b) => {
+    //   return a.title.localeCompare(b.title);
+    // });
+    // let newArr = [];
+    // let objArr = [];
+    // let ordersObj = {};
+    // newArr.push(sortedBasket[0]);
+    // for (let i = 0; i < sortedBasket.length; i++) {
+    //   if (
+    //     sortedBasket[i - 1] &&
+    //     sortedBasket[i].title !== sortedBasket[i - 1].title
+    //   ) {
+    //     newArr.push(sortedBasket[i]);
+    //   }
+    // }
+    // for (let j = 0; j < newArr.length; j++) {
+    //   objArr = sortedBasket.filter((v) => {
+    //     if (newArr[j].title) {
+    //       if (v.title === newArr[j].title) {
+    //         return v;
+    //       }
+    //     }
+    //   });
+    //   ordersObj[newArr[j]?.title] = objArr.length;
+    // }
+    // // end sorting
     // start mail
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -73,6 +73,7 @@ userOrderRouter.post("/", async (req, res) => {
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
+        console.log("heheeheheheheh");
       } else {
         console.log("Email sent: " + info.response);
       }
