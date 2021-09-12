@@ -23,4 +23,28 @@ const sendEmail = (options) => {
     }
   });
 };
+const sendOrder = (options) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "salah.elraies@gmail.com",
+      pass: process.env.ORDER_MAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: "salah.elraies@gmail.com",
+    to: options.to,
+    subject: options.subject,
+    html: options.text,
+  };
+  transporter.sendMail(mailOptions, function (err, info) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(info);
+    }
+  });
+};
+export { sendOrder };
 export default sendEmail;
