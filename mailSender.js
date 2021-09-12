@@ -25,15 +25,17 @@ const sendEmail = (options) => {
 };
 const sendOrder = (options) => {
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "gmail",
+    port: 587,
+    secure: false, // true for 465, false for other ports
     auth: {
-      user: "salah.elraies@gmail.com",
-      pass: process.env.ORDER_MAIL_PASS,
+      user: process.env.EMAIL_USERNAME, // generated ethereal user
+      pass: process.env.ORDER_MAIL_PASS, // generated ethereal password
     },
   });
 
   const mailOptions = {
-    from: "salah.elraies@gmail.com",
+    from: process.env.EMAIL_FROM,
     to: options.to,
     subject: options.subject,
     html: options.text,
