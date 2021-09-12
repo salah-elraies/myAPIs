@@ -3,14 +3,15 @@ dotenv.config();
 import express from "express";
 import { userOrders } from "../dbModel.js";
 import nodemailer from "nodemailer";
+import sendEmail from "../mailSender.js";
 const userOrderRouter = express.Router();
 
 userOrderRouter.post("/", async (req, res) => {
-  // res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-  // res.header(
-  //   "Access-Control-Allow-Headers",
-  //   "Origin, X-Requested-With, Content-Type, Accept"
-  // );
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   const { user, order, total, phone, address, ordersObj } = req.body;
   try {
     // // sort order
@@ -41,13 +42,13 @@ userOrderRouter.post("/", async (req, res) => {
     // }
     // // end sorting
     // start mail
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "salah.elraies@gmail.com",
-        pass: "951753SaLaH$",
-      },
-    });
+    // const transporter = nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     user: "salah.elraies@gmail.com",
+    //     pass: process.env.ORDER_MAIL_PASS,
+    //   },
+    // });
     // const missing = Object.entries(ordersObj).join(" || ");
     const missing = Object.entries(ordersObj).map((prod) => {
       return `<h3>${prod[1]} of ${prod[0]}</h3>`;
@@ -63,21 +64,23 @@ userOrderRouter.post("/", async (req, res) => {
     <p>if he sent an address for the delivery it will be shown below</p>
     <h4>${address}</h4>
   `;
-    const mailOptions = {
-      from: "salah.elraies@gmail.com",
-      to: "s4l47.elraies@gmail.com",
-      subject: "New Order from website",
-      html: orderMessage,
-    };
+    // const mailOptions = {
+    //   from: "salah.elraies@gmail.com",
+    //   to: "s4l47.elraies@gmail.com",
+    //   subject: "New Order from website",
+    //   html: orderMessage,
+    // };
+    try {
+      await sendEmail({
+        to: "s4l47.elraies@gmail.com",
+        subject: "Password Reset Request",
+        text: orderMessage,
+      });
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-        console.log("heheeheheheheh");
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
+      res.status(200).json({ success: true, data: "Email Sent" });
+    } catch (error) {
+      console.log(error);
+    }
     // end mail
     // db creation
     await userOrders.create({
