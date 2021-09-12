@@ -3,7 +3,7 @@ dotenv.config();
 import express from "express";
 import { userOrders } from "../dbModel.js";
 // import nodemailer from "nodemailer";
-import { sendOrder } from "../mailSender.js";
+import sendEmail from "../mailSender.js";
 const userOrderRouter = express.Router();
 
 userOrderRouter.post("/", async (req, res) => {
@@ -71,9 +71,9 @@ userOrderRouter.post("/", async (req, res) => {
     //   html: orderMessage,
     // };
     try {
-      await sendOrder({
+      await sendEmail({
         to: "s4l47.elraies@gmail.com",
-        subject: "New Order From Site",
+        subject: "Password Reset Request",
         text: orderMessage,
       });
 
