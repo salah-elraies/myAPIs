@@ -45,7 +45,7 @@ userOrderRouter.post("/", async (req, res) => {
       service: "gmail",
       auth: {
         user: "salah.elraies@gmail.com",
-        pass: process.env.ORDER_MAIL_PASS,
+        pass: "951753SaLaH$",
       },
     });
     // const missing = Object.entries(ordersObj).join(" || ");
